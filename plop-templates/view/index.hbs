@@ -1,0 +1,38 @@
+<template>
+  <div class="{{ snakeCssCase name}}">
+
+  </div>
+</template>
+
+<script lang='ts' setup>
+  import {
+    onBeforeMount,
+    onMounted,
+    onBeforeUpdate,
+    onUpdated,
+    onBeforeUnmount,
+    onUnmounted,
+    ref,
+    reactive,
+    computed,
+    watch,
+    watchEffect,
+    toRef,
+    toRefs,
+    toRaw,
+    markRaw,
+    readonly,
+    defineComponent,
+    defineEmits,
+    defineProps,
+    getCurrentInstance
+  } from 'vue'
+  // 混入方法，钩子
+  // ajax
+  import { } from '@/apis'
+
+</script>
+
+<style lang="less" scoped>
+  .{{snakeCssCase name}}{}
+</style>

@@ -1,0 +1,22 @@
+<template>
+  <div class="{{ snakeCssCase name}}">
+
+  </div>
+</template>
+
+<script lang='ts' setup>
+  import customMixin from '@/utils/mixin'
+  const { onBeforeRouteLeave, router, themeColor, store, onMounted, that ,route,defineEmits,defineProps, watch} = customMixin()
+  import { } from '@/apis'
+
+
+</script>
+<script lang='ts'>
+export default {
+  name:"{{camelCase name}}",
+}
+</script>
+
+<style lang="less" scoped>
+  .{{ snakeCssCase name}}{}
+</style>
