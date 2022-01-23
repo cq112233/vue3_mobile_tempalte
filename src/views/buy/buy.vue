@@ -1,7 +1,11 @@
 <template>
   <div class="buy"></div>
 </template>
-
+<script lang="ts">
+export default { 
+  name:'buy'
+}
+</script>
 <script lang="ts" setup>
 </script>
 

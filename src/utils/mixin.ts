@@ -3,7 +3,7 @@
 @description mixin 配置
 */
 import { useRouter, useRoute, onBeforeRouteLeave } from 'vue-router'
-import { toRaw, markRaw, computed, toRefs, toRef, ref, defineEmits, reactive, defineProps, onMounted, onUnmounted, watch, watchEffect, getCurrentInstance, onActivated, nextTick } from 'vue'
+import { provide, inject, defineAsyncComponent, toRaw, useAttrs, useSlots, defineExpose, useCssModule, markRaw, computed, toRefs, toRef, ref, defineEmits, reactive, defineProps, onMounted, onUnmounted, watch, watchEffect, getCurrentInstance, onActivated, nextTick } from 'vue'
 import { useStore } from 'vuex'
 import * as totalUtils from './index'
 // eslint-disable-next-line import/no-named-default
@@ -22,9 +22,22 @@ function customMixin () {
   const themeColor = computed(() => {
     return app.value.themeColor
   })
+  onBeforeRouteLeave((to, from, next) => {
+    if (from.name === '404') {
+      // to.meta.savedPosition = 0
+      document.body.scrollTop = 0
+    }
+    // 只有keepAlive 的 保持滚动状态
+    if (from.meta.keepAlive) {
+      (window as any)[`custom${(from as any).name}`] = document.body.scrollTop
+    }
+    next()
+  })
   return {
     ...toRefs(enums),
     ...totalUtils,
+    provide,
+    inject,
     reactive, // 对象响应式
     onBeforeRouteLeave, // 路由离开钩子
     ref, // 基本数据响应式
@@ -36,13 +49,18 @@ function customMixin () {
     watchEffect, // 自动侦听器
     defineEmits, // 发布事件
     defineProps, // prop
+    defineExpose, // vue3 中不能通过 ref获取实例上的数据
     onMounted,
     onActivated,
     onUnmounted,
+    defineAsyncComponent,
     store,
     router,
     route,
     app,
+    useAttrs,
+    useSlots,
+    useCssModule,
     themeColors,
     themeColor,
     that, // 当前实例

@@ -10,21 +10,29 @@ import {
   removeLocalStore,
   getLocalStore
 } from '@/utils/localStoreUtils'
+
+// 获取加密token
+function getTokens () {
+  try {
+    // return (getLocalStore('TOKENS') && JSON.parse(window.atob(getLocalStore('TOKENS')))) || null
+    return (getLocalStore('TOKENS') && JSON.parse(getLocalStore('TOKENS'))) || null
+  } catch (error) {
+    return null
+  }
+}
 const user:unknown = {
   namespaced: true,
   state: {
-    accessToken: getLocalStore('ACCESSTOKEN') || '', // 令牌
-    tokens: null, // 包含token,刷新token
+    tokens: getTokens(), // 令牌
     userInfo: null, // 用户信息
     permission: null // 权限对象
   },
   mutations: {
     // 设置token
-    setAccessToken (state, payload): void {
-      console.log(payload)
+    setTokens (state, payload): void {
       state.tokens = payload
-      state.accessToken = payload.accessToken
-      setLocalStore('ACCESSTOKEN', payload.accessToken)
+      // setLocalStore('TOKENS', window.btoa(JSON.stringify(payload)))
+      setLocalStore('TOKENS', JSON.stringify(payload))
     },
     // 用户信息
     setUserInfo (state, payload): void {
@@ -35,22 +43,22 @@ const user:unknown = {
       state.permission = payload
     },
     // 清除用户所有状态
-    clearLocalStore (state): void {
-      state.accessToken = ''
+    clearUserLocalStore (state): void {
       state.tokens = null
       state.userInfo = null
-      removeLocalStore('ACCESSTOKEN')
+      removeLocalStore('TOKENS')
     }
   },
   actions: {
     // 用户信息
     getUserInfo ({
       commit
-    }): Promise<unknown> {
+    }) {
       return new Promise((resolve) => {
-        getUserInfo().then(
+        getUserInfo({}).then(
           (res) => {
-            commit('setUserInfo', res)
+            console.log(res)
+            commit('setUserInfo', (res as any).data)
             resolve(res)
           }
         )
@@ -79,7 +87,7 @@ const user:unknown = {
     login ({ commit }, options): Promise<void> {
       return new Promise((resolve) => {
         login(options).then(res => {
-          commit('setAccessToken', res)
+          commit('setTokens', res.data)
           resolve()
         })
       })
@@ -90,10 +98,16 @@ const user:unknown = {
     }): Promise<void> {
       return new Promise((resolve) => {
         // 清除本地缓存
-        commit('clearLocalStore')
+        commit('clearUserLocalStore')
         resolve()
       })
     }
+  },
+  getters: {
+    isLogin (state):boolean {
+      return !!state.tokens
+    }
   }
+
 }
 export default user

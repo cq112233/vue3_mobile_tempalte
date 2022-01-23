@@ -2,6 +2,12 @@
   <div class="star">xxx</div>
 </template>
 
+<script lang="ts">
+export default {
+  name: 'star'
+}
+</script>
+
 <script lang='ts' setup>
 import customMixin from '@/utils/mixin'
 const { onBeforeRouteLeave, router, route, that } = customMixin()

@@ -1,8 +1,9 @@
 <template>
   <router-view v-slot="{ Component }">
-    <keep-alive include="home">
+    <keep-alive :include="keepAlivePages">
       <component
         :is="Component"
+        :key="key"
       />
     </keep-alive>
   </router-view>
@@ -25,8 +26,6 @@ const keepAlivePages: ComputedRef<any[]> = computed(() => {
     ...keepAliveLayoutList
   ]
 })
-console.log(keepAlivePages.value)
-
 const key: string = computed(() => {
   return router.currentRoute.value.fullPath
 })

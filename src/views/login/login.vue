@@ -11,7 +11,7 @@
           v-model="phone"
           label="用户名"
           placeholder="请输入用户名"
-          type="tel"
+          type="text"
         />
         <van-field
           label-class="label_width"
@@ -32,6 +32,12 @@
     </footer>
   </div>
 </template>
+
+<script lang="ts">
+export default {
+  name: 'login'
+}
+</script>
 
 <script lang="ts" setup>
 import { useStore } from 'vuex'

@@ -7,7 +7,7 @@ const { isPermission, routerWhiteLists } = config// 进度条样式
 
 router.beforeEach(async (to, from, next) => {
   // 是否存在token 登入
-  if ((store.state as any).user.accessToken) {
+  if ((store.state as any).user.tokens) {
     if (to.path === '/page/login') {
       next('/layout/home')
     } else {

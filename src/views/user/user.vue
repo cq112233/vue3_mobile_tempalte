@@ -3,7 +3,11 @@
     <van-button @click="logout">退出登录</van-button>
   </div>
 </template>
-
+<script lang="ts">
+export default {
+  name: 'user'
+}
+</script>
 <script lang="ts" setup>
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'

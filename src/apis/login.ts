@@ -1,37 +1,46 @@
-import { getLocalStore } from '@/utils/localStoreUtils'
+import axios from 'axios'
+import request from '@/plugins/axios/request'
 // token
 interface login {
-    accessToken: string,
-    refreshToken: string,
+  accessToken: string,
+  refreshToken: string,
 }
 interface loginData {
-    roleId: string,
-    password?: string
-    username?: string
+  roleId: string,
+  password?: string
+  username?: string
 }
-export function login (data: loginData): Promise<login> {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve({
-        accessToken: `i am token ${data.roleId}`,
-        refreshToken: `i am refreshToken ${data.roleId}`
-      })
-    }, 1000)
+export function login (data: loginData) {
+  return request({
+    url: '/api/login',
+    method: 'post',
+    data
+  })
+}
+
+// 刷新token
+export function refreshToken (data):Promise<any> {
+  return axios({
+    url: '/api/refreshToken',
+    method: 'post',
+    data
   })
 }
 
 // 用户信息
-export function getUserInfo (): Promise<unknown> {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      const userInfo = {
-        id: 1,
-        username: 'zhangsan',
-        age: 18,
-        roles: getLocalStore('accessToken').includes('1') ? ['admin'] : ['employee']
-      }
-      resolve(userInfo)
-    }, 200)
+export function getUserInfo (data): Promise<unknown> {
+  return request({
+    url: '/api/userInfo',
+    method: 'post',
+    data
+  })
+}
+
+// 用户信息
+export function getTest (): Promise<unknown> {
+  return request({
+    url: '/api/test',
+    method: 'get'
   })
 }
 

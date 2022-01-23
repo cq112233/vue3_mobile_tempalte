@@ -7,30 +7,54 @@
     {{user.name}}
     {{user.age}}
   </div>
-  <p @click="go">点击条状</p>
-  <input type="color" @change="changColor">
+  <p @click="go" v-my-directive >点击条状</p>
+
   <!-- 传送门 -->
-  <Teleport to="body">
-  <line-chart></line-chart>
-  </Teleport>
+  <!-- <Teleport to="body"> -->
+  <line-chart title="我是canvas图" ref="lineChart"></line-chart>
+  <!-- </Teleport> -->
   <!-- 异步组件 -->
   <Suspense>
     <template v-slot:default>
       <calendar/>
     </template>
     <template v-slot:fallback>
-      <div>11</div>
+      <div>正在加载。。。。</div>
     </template>
   </Suspense>
 </template>
-
 <script lang="ts" setup>
 import customMixin from '@/utils/mixin'
 import LineChart from '@/components/common/lineChart/index.vue'
-import { defineAsyncComponent, provide } from 'vue'
+import axios from 'axios'
+const { provide, onMounted, defineAsyncComponent, nextTick, router, themeColor, reactive, onActivated, useCssModule, that, ref } = customMixin()
 const calendar = defineAsyncComponent(() => import('@/components/common/calendar/index.vue'))
-const { onBeforeRouteLeave, router, themeColor, reactive, store, onMounted, onActivated } = customMixin()
 
+const vMyDirective = {
+  beforeMount: (el, binding, vnode) => {
+    el.style.background = '#ccc'
+  },
+  updated (el, binding, vnode) {
+    el.style.background = 'blue'
+  }
+}
+onMounted(() => {
+  setTimeout(() => {
+    axios.get('/api/test').then(res => {
+      console.log(res)
+    })
+  }, 1000)
+})
+// getUserInfo().then(res => {
+//   console.log('成功')
+// })
+const lineChart = ref()
+onMounted(() => {
+  console.log(lineChart.value.option, 'root')
+})
+// const style = useCssModule()
+
+// console.log($style)
 onMounted(() => {
   console.log('mountd')
 })
@@ -40,9 +64,6 @@ onActivated(() => {
 
 function go () {
   router.push('/xx')
-}
-const changColor = (e) => {
-  store.commit('app/changeThemeColor', e.target.value)
 }
 
 const users = reactive([
@@ -60,22 +81,14 @@ setTimeout(() => {
   users[0].name = '王五'
 }, 3000)
 
-onBeforeRouteLeave((to, from, next) => {
-  next()
-})
 </script>
 
-<script lang="ts">
-export default {
-  name: 'home'
+<style lang="less" module='content' scoped >
+p {
+  color:@mating-pink;
 }
-</script>
-
-<style lang="less" scoped>
 .van-button {
   color: v-bind(themeColor);
 }
-// p {
-//   color:mating-pink;
-// }
+
 </style>

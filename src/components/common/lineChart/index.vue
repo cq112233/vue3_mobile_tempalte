@@ -1,14 +1,14 @@
 <template>
   <div class="lineChart">
+
     <div id="echartInstance" ref="main">
 
-      111
     </div>
   </div>
 </template>
 <script lang="ts" setup>
 import mixins from '@/utils/mixin'
-const { that, onMounted, nextTick } = mixins()
+const { that, onMounted, nextTick, defineExpose } = mixins()
 const { ctx } = that
 let myChart = null
 function generatorChart () {
@@ -250,6 +250,10 @@ onMounted(() => {
   myChart.setOption(option)
 })
 
+// 对外暴露的属性
+defineExpose({
+  option
+})
 // setTimeout(() => {
 //   console.log('myChart', myChart)
 //   myChart.setOption({

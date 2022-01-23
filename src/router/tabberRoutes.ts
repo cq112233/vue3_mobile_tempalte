@@ -52,7 +52,7 @@ export default [
         name: 'home',
         meta: {
           title: '首页',
-          keepAlive: true
+          keepAlive: true,
         },
         component: Home
       }

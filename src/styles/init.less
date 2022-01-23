@@ -1,7 +1,9 @@
 @charset "utf-8";
 @import url("~@/assets/fonticon/index.css");
 @import url("./custom.less");
-
+* {
+  -webkit-text-size-adjust: none;
+}
 /* 禁用iPhone中Safari的字号自动调整 */
 html {
   -webkit-text-size-adjust: 100%;
@@ -140,6 +142,7 @@ body {
   font: 16px/1.5 "Microsoft YaHei", "宋体", Tahoma, Arial, sans-serif;
   color: #555;
   background-color: #f7f7f7;
+  overflow: scroll;
 }
 #app {
   min-height: 100%;

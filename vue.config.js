@@ -2,10 +2,27 @@
 const path = require('path')
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const appConfig = require('./app.config.js')
-console.log(appConfig.theme)
+const themeVar = path.resolve(__dirname, `./src/theme/${appConfig.theme}/variables.less`)
+
+function addStyleResource (rule) {
+  rule.use('style-resource')
+    .loader('style-resources-loader')
+    .options({
+    // 需要引入的公共文件
+      patterns: [
+        path.resolve(__dirname, `${themeVar}`)
+      ]
+    })
+}
+
 module.exports = {
   lintOnSave: false,
   css: {
+    // 是否使用css分离插件 ExtractTextPlugin
+    extract: true,
+    // 开启 CSS source maps?
+    sourceMap: false,
+    // css预设器配置项
     loaderOptions: {
       postcss: {
         plugins: [
@@ -14,7 +31,7 @@ module.exports = {
             remUnit: 75, // 根据设计图
             // 375的图就给37.5，也就是1rem=37.5px
             // 如果不想px装rem  可以使用 "PX"或者"Px"
-            exclude: /node_modules|init.css/i
+            exclude: /node_modules|init.css|theme/i
           })
         ]
       }
@@ -32,19 +49,12 @@ module.exports = {
       // }
     }
   },
-  // 全局引入 less 变量配置
-  pluginOptions: {
-    'style-resources-loader': {
-      preProcessor: 'less',
-      patterns: [path.resolve(__dirname, `./src/theme/${appConfig.theme}/variables.less`)]
-    }
-  },
   devServer: {
   // hot: true,
     proxy: {
       '/api': {
       // 这里最好有一个 /
-        target: 'http://localhost:8080/', // 服务器端接口地址
+        target: 'http://localhost:8011/', // 服务器端接口地址
         ws: true, // 如果要代理 websockets，配置这个参数
         // 如果是https接口，需要配置这个参数
         changeOrigin: true, // 是否跨域
@@ -76,6 +86,10 @@ module.exports = {
     hotOnly: true,
     // 开启
     open: false
+  },
+  chainWebpack: config => {
+    const types = ['vue-modules', 'vue', 'normal-modules', 'normal']
+    types.forEach(type => addStyleResource(config.module.rule('less').oneOf(type)))
   },
   configureWebpack: () => {
     return {

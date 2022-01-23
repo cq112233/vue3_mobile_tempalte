@@ -48,7 +48,10 @@ store.dispatch('permission/setKeepAliveList', { routes: getKeepAliveRouterGenera
 
 const router = createRouter({
   history: createWebHashHistory(),
-  routes
+  routes,
+  scrollBehavior(to, from, savedPosition) {
+    (document.body as any).scrollTop = window[`custom${(to as any).name}`] || 0
+  },
 })
 
 export default router

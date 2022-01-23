@@ -29,6 +29,6 @@ const isShowTabBars = computed(() => {
 <style scoped>
 .wrapper {
   box-sizing: border-box;
-  padding-bottom: 55px;
+  padding-bottom: 55Px;
 }
 </style>
