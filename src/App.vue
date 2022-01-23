@@ -4,8 +4,8 @@
 <!-- </van-config-provider> -->
 </template>
 <script lang="ts" setup>
-import customMixin from '@/utils/mixin'
-const xx = customMixin()
+// import customMixin from '@/utils/mixin'
+// const xx = customMixin()
 
 // const themeVars = {
 //   rateIconFullColor: '#07c160',

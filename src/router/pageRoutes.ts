@@ -4,14 +4,6 @@ export default [
   {
     path: '/page',
     name: 'page',
-    meta: {
-      title: 'page'
-      // keepAlive: true
-    },
-    beforeEnter: (to, from, next) => {
-      // 主要判断from.path
-      next()
-    },
     component: Layout,
     children: [
       // 魔法注释勿删 ⬇️

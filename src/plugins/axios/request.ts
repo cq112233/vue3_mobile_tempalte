@@ -25,7 +25,7 @@ function redirectLogin () {
 instance.interceptors.request.use(
   function (config) {
     // 在发送请求之前做些什么
-    if (store.getters['user/isLogin']) {
+    if ((store as any).state.user.tokens) {
       config.headers.authorization = (store as any).state.user.tokens.accessToken
     }
     return config
@@ -77,9 +77,10 @@ instance.interceptors.response.use(
           return refreshToken({
             refreshToken: (store as any).state.user.tokens.refreshToken
           }).then(res => {
-            // if (!res.data.success) {
-            //   throw new Error('刷新 Token 失败')
-            // }
+            console.log(res, 'refreshToken')
+            if (res.status !== 200) {
+              throw new Error('刷新 Token 失败')
+            }
             // 刷新 token 成功了
             store.commit('user/setTokens', res.data)
             // 把 requests 队列中的请求重新发出去
@@ -87,8 +88,7 @@ instance.interceptors.response.use(
             // 重置 requests 数组
             requests = []
             return instance(error.config)
-          }).catch(err => {
-            console.log(err)
+          }).catch(error => {
             Toast.fail('登录已过期，请重新登录')
             store.commit('user/clearUserLocalStore')
             redirectLogin()

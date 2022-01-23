@@ -14,8 +14,8 @@ import {
 // 获取加密token
 function getTokens () {
   try {
-    // return (getLocalStore('TOKENS') && JSON.parse(window.atob(getLocalStore('TOKENS')))) || null
-    return (getLocalStore('TOKENS') && JSON.parse(getLocalStore('TOKENS'))) || null
+    return (getLocalStore('TOKENS') && JSON.parse(window.atob(getLocalStore('TOKENS')))) || null
+    // return (getLocalStore('TOKENS') && JSON.parse(getLocalStore('TOKENS'))) || null
   } catch (error) {
     return null
   }
@@ -31,8 +31,8 @@ const user:unknown = {
     // 设置token
     setTokens (state, payload): void {
       state.tokens = payload
-      // setLocalStore('TOKENS', window.btoa(JSON.stringify(payload)))
-      setLocalStore('TOKENS', JSON.stringify(payload))
+      setLocalStore('TOKENS', window.btoa(JSON.stringify(payload)))
+      // setLocalStore('TOKENS', JSON.stringify(payload))
     },
     // 用户信息
     setUserInfo (state, payload): void {

@@ -2,10 +2,6 @@ import Layout from '@/layout/index.vue'
 const asyncRoutes = [{
   path: '/page',
   component: Layout,
-  meta: {
-    title: 'page',
-    keepAlive: true
-  },
   children: [
     {
       path: 'asyncRouteExample',
@@ -48,7 +44,9 @@ const asyncRoutes = [{
 {
   path: '/:catchAll(.*)',
   name: '*',
-  redirect: '/404'
+  redirect: '/404',
+  component: () =>
+    import(/* webpackChunkName: "404" */ '../views/404/404.vue')
 }
 ]
 export default asyncRoutes

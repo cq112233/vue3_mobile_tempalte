@@ -3,6 +3,7 @@ import store from './store'
 import { setTitle } from '@/utils/appUtils'
 import config from '../app.config.js'
 import { Toast } from 'vant' // 路由白名单路径集
+import { getTest } from './apis/login'
 const { isPermission, routerWhiteLists } = config// 进度条样式
 
 router.beforeEach(async (to, from, next) => {

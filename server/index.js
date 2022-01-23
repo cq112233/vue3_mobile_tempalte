@@ -31,7 +31,6 @@ app.post('/login', (req, res) => {
 
 app.post('/userinfo', (req, res) => {
   // render函数就是express对模板引擎的调用方法，它会自动调用模板引擎去你配置的目录下找index.html文件，并解析返回
-  console.log(token, req.headers.authorization)
   if (token !== req.headers.authorization) return res.status(401).send()
   res.send({
     id: 1,
@@ -42,6 +41,7 @@ app.post('/userinfo', (req, res) => {
 })
 app.get('/test', (req, res) => {
   // render函数就是express对模板引擎的调用方法，它会自动调用模板引擎去你配置的目录下找index.html文件，并解析返回
+  if (token !== req.headers.authorization) return res.status(401).send()
   res.send({
     title: '标题'
   })

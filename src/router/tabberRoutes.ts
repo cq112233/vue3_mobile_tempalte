@@ -1,5 +1,5 @@
 import Layout from '@/layout/index.vue'
-import Home from '@/views/home/home.vue'
+// import Home from '@/views/home/home.vue'
 export default [
   // 有tabber页面
   {
@@ -9,11 +9,7 @@ export default [
       title: 'index',
       keepAlive: true
     },
-    redirect: '/layout/index',
-    beforeEnter: (to, from, next) => {
-      // 主要判断from.path
-      next()
-    },
+    redirect: '/layout/home',
     component: Layout,
     children: [
       // 魔法注释勿删 ⬇️
@@ -52,9 +48,9 @@ export default [
         name: 'home',
         meta: {
           title: '首页',
-          keepAlive: true,
+          keepAlive: true
         },
-        component: Home
+        component: () => import(/* webpackChunkName: "home" */ '../views/home/home.vue')
       }
     ]
   }

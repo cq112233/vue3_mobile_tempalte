@@ -26,7 +26,6 @@
 <script lang="ts" setup>
 import customMixin from '@/utils/mixin'
 import LineChart from '@/components/common/lineChart/index.vue'
-import axios from 'axios'
 const { provide, onMounted, defineAsyncComponent, nextTick, router, themeColor, reactive, onActivated, useCssModule, that, ref } = customMixin()
 const calendar = defineAsyncComponent(() => import('@/components/common/calendar/index.vue'))
 
@@ -38,13 +37,13 @@ const vMyDirective = {
     el.style.background = 'blue'
   }
 }
-onMounted(() => {
-  setTimeout(() => {
-    axios.get('/api/test').then(res => {
-      console.log(res)
-    })
-  }, 1000)
-})
+// onMounted(() => {
+//   setTimeout(() => {
+//     axios.get('/api/test').then(res => {
+//       console.log(res)
+//     })
+//   }, 1000)
+// })
 // getUserInfo().then(res => {
 //   console.log('成功')
 // })
